@@ -42,12 +42,22 @@ even on SSH connections, so remember if you need to switch back to console to hi
 
 ```
 *      Start key capture (to input time via number keys, hit "*" again to accept)
-+      Add a tenth of a second
--      Remove a tenth of a second
++      Add a tenth of a second or a fraction of stop (see STOP_INCREMENTS)
+-      Remove a tenth of a second or a fraction of stop (see STOP_INCREMENTS)
 /      "Focus" - Turn the enlarger on
 ENTER  "Print" - Enlarger on, timer counts down to zero then turns the enlarger back off
 e      Pressing E or Ctrl+C Will exit the program 
 ```
+
+### Linear increments or STOP increments
+Using STOP_INCREMENTS=False, + and - will, respectively, add 0.1 o subtract 0.1 seconds.
+However I think is more useful to use f/stop increments. If you set STOP_INCREMENTS to 6
+(values: 1,2,3,4,5,6,7,8,9,10,11,12 are accepted) when you press + or -, the timer will be
+adjusted by a 1/STOP_INCREMENTS of STOP.
+For example if current time is 10 seconds and STOP_INCREMENTS=1 (1 full stop) the first time
+you press + the timer will be adjusted to 20 seconds, the second time to 40 seconds and so on.
+If STOP_INCREMENTS is 6, the increments will be 11.2, 12.6, 14.1 and so on.
+If the timer is set to 14.1 and STOP_INCREMENTS is 6, you'll go in reverse: 12.6, 11.2, 10 and so on.
 
 ## Configuration
 
@@ -60,6 +70,7 @@ It is possible to customize a few things with environment variables
 * STARTUP_MESSAGE = (default 'LOVE U')
 * FONT_FILE = (default "darkroom/fonts/scoreboard.ttf")
 * ACTIVE_MODE_HIGH = (default True)
+* STOP_INCREMENTS = (default False)
 
 
 ## License

@@ -5,6 +5,7 @@ import termios
 import sys
 import tty
 import time
+import math
 
 from luma.core.interface.serial import noop, spi
 from luma.core.render import canvas
@@ -20,6 +21,7 @@ ENLARGER_PIN = int(os.getenv('ENLARGER_PIN', 18))
 STARTUP_MESSAGE = os.getenv('STARTUP_MESSAGE', 'LOVE U')
 FONT_FILE = os.getenv('FONT_FILE', os.path.join(os.path.dirname(__file__), "fonts", "scoreboard.ttf"))
 ACTIVE_MODE_HIGH = os.getenv('ACTIVE_MODE_HIGH', True)
+STOP_INCREMENTS = os.getenv('STOP_INCREMENTS', False)
 
 font_path = os.path.abspath(FONT_FILE)
 
@@ -50,18 +52,24 @@ def print_light():
 
 
 def add(amount=0.1):
-    global timer
-    timer += amount
-    if timer >= 100:
-        timer = 99.9
+    global timer, STOP_INCREMENTS
+    if STOP_INCREMENTS in (1,2,3,4,5,6,7,8,9,10,11,12):
+        timer = round(timer * math.pow(2, 1/STOP_INCREMENTS), 1)
+    else:
+        timer += amount
+        if timer >= 100:
+            timer = 99.9
     display_time(timer)
 
 
 def rem(amount=0.1):
-    global timer
-    timer -= amount
-    if timer < 0.0:
-        timer = 0.0
+    global timer, STOP_INCREMENTS
+    if STOP_INCREMENTS in (1,2,3,4,5,6,7,8,9,10,11,12):
+        timer = round(timer / math.pow(2, 1/STOP_INCREMENTS), 1)
+    else:
+        timer -= amount
+        if timer < 0.0:
+            timer = 0.0
     display_time(timer)
 
 
