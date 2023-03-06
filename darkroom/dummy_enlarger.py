@@ -3,10 +3,8 @@
 import time
 from threading import Thread
 
-from gpiozero import OutputDevice
 
-
-class Enlarger(OutputDevice):
+class DummyEnlarger():
     def __init__(self, pin, active_high=True):
         #super(Enlarger, self).__init__(pin, active_high=active_high, initial_value=True)
         self.printing = False
@@ -28,11 +26,9 @@ class Enlarger(OutputDevice):
 
     def on(self):
         self.state = True
-        super().on()
 
     def off(self):
         self.state = False
-        super().off()
 
     def execute(self, length, draw):
         if self.printing:
