@@ -17,7 +17,6 @@ class Enlarger(OutputDevice):
         self.state = False
         self.length = 0
         self.active_high = active_high
-        self.setup_gpio_footswitch(pin=21)
         self.off()
 
     def toggle(self):
