@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import time
 from threading import Thread
-from RPi import GPIO
+
 
 from gpiozero import OutputDevice
 
@@ -21,23 +21,12 @@ class Enlarger(OutputDevice):
         self.off()
 
     def toggle(self):
-        if self.printing:å
+        if self.printing:
             return False
         if self.state:
             self.off()
         else:
             self.on()
-
-    def _footswitch_event(self):
-        footswitch = GPIO.input(21)
-        if(self.footswitch != footswitch):
-            
-        time.sleep(1)
-
-    def setup_gpio_footswitch(self, pin=21):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin, GPIO.IN)
-        self.footswitch_event_thread = Thread(target=self._footswitch_event)
 
     def on(self):
         self.state = True

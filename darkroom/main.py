@@ -6,7 +6,8 @@ import sys
 import tty
 import time
 import math
-from threading import Threadå
+from threading import Thread
+from RPi import GPIO
 
 from luma.core.interface.serial import noop, spi
 from luma.core.render import canvas
@@ -41,6 +42,23 @@ set_timer_capture = ""
 
 enlarger = Enlarger(pin=ENLARGER_PIN, active_high=ACTIVE_MODE_HIGH)
 
+def _footswitch_event():
+        global footswitch_prev_status
+        footswitch = GPIO.input(21)
+        if footswitch_prev_status != footswitch:
+            if footswitch == 1:
+                print_light()
+            footswitch_prev_status = footswitch                
+        time.sleep(1)
+
+def setup_gpio_footswitch(pin=21):
+        global footswitch_prev_status
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pin, GPIO.IN)
+        footswitch_prev_status = GPIO.input(21)
+        footswitch_event_thread = Thread(target=_footswitch_event)
+        footswitch_event_thread.setDaemon(True)
+        footswitch_event_thread.start()
 
 def display(text):
     with canvas(device) as draw:
