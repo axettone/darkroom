@@ -21,10 +21,11 @@ Y_OFFSET = int(os.getenv('Y_OFFSET', -2))
 BLOCK_DIR = int(os.getenv('BLOCK_DIR', -90))
 ENLARGER_PIN = int(os.getenv('ENLARGER_PIN', 18))
 STARTUP_MESSAGE = os.getenv('STARTUP_MESSAGE', 'LOVE U')
-FONT_FILE = os.getenv('FONT_FILE', os.path.join(os.path.dirname(__file__), "fonts", "scoreboard.ttf"))
+FONT_FILE = os.getenv('FONT_FILE', os.path.join(os.path.dirname(__file__), "fonts", "scorebo>
 ACTIVE_MODE_HIGH = os.getenv('ACTIVE_MODE_HIGH', True)
 STOP_INCREMENTS = os.getenv('STOP_INCREMENTS', False)
 
+  GNU nano 5.4                           darkroom/main.py
 if STOP_INCREMENTS.isdigit():
     STOP_INCREMENTS = int(STOP_INCREMENTS)
 
@@ -38,25 +39,23 @@ device = max7219(serial, cascaded=4, block_orientation=BLOCK_DIR)
 timer = 0.0
 set_timer_mode = False
 set_timer_capture = ""
-footswitch_prev_status = False
+footswitch_prev_status = None
+footswitch_event_thread = None
 
 enlarger = Enlarger(pin=ENLARGER_PIN, active_high=ACTIVE_MODE_HIGH)
 
 def _footswitch_event():
-        global footswitch_prev_status
+    global footswitch_prev_status
+    while True:
         footswitch = GPIO.input(21)
-        print("Initialized")
-        print(footswitch)
         if footswitch_prev_status != footswitch:
-            print("Status change")
             if footswitch == 1:
-                print("Starting light")
                 print_light()
-            footswitch_prev_status = footswitch                
+            footswitch_prev_status = footswitch
         time.sleep(1)
 
 def setup_gpio_footswitch(pin=21):
-        global footswitch_prev_status
+        global footswitch_prev_status, footswitch_event_thread
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.IN)
         footswitch_prev_status = GPIO.input(21)
@@ -195,6 +194,7 @@ def on_release(key):
 
 
 def main():
+    setup_gpio_footswitch(21)
     display(STARTUP_MESSAGE)
     time.sleep(4)
     display_time(timer)
@@ -212,18 +212,3 @@ def main():
                 continue
             elif ascii_char == 126:  # Not pressing numlock, maybe key
                 continue
-
-            elif ascii_char == 13:
-                char = "enter"
-            elif ascii_char == 127:
-                char = "backspace"
-            elif char not in "0123456789.*/-+":
-                continue
-
-            on_release(char)
-    finally:
-        display("------")
-
-
-if __name__ == "__main__":
-    main()
