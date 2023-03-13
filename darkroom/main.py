@@ -38,15 +38,19 @@ device = max7219(serial, cascaded=4, block_orientation=BLOCK_DIR)
 timer = 0.0
 set_timer_mode = False
 set_timer_capture = ""
-
+footswitch_prev_status = False
 
 enlarger = Enlarger(pin=ENLARGER_PIN, active_high=ACTIVE_MODE_HIGH)
 
 def _footswitch_event():
         global footswitch_prev_status
         footswitch = GPIO.input(21)
+        print("Initialized")
+        print(footswitch)
         if footswitch_prev_status != footswitch:
+            print("Status change")
             if footswitch == 1:
+                print("Starting light")
                 print_light()
             footswitch_prev_status = footswitch                
         time.sleep(1)
