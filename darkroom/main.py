@@ -23,6 +23,9 @@ FONT_FILE = os.getenv('FONT_FILE', os.path.join(os.path.dirname(__file__), "font
 ACTIVE_MODE_HIGH = os.getenv('ACTIVE_MODE_HIGH', True)
 STOP_INCREMENTS = os.getenv('STOP_INCREMENTS', False)
 
+if STOP_INCREMENTS.isdigit():
+    STOP_INCREMENTS = int(STOP_INCREMENTS)
+
 font_path = os.path.abspath(FONT_FILE)
 
 font = ImageFont.truetype(font_path, 10)
