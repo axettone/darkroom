@@ -6,6 +6,7 @@ import sys
 import tty
 import time
 import math
+from threading import Threadå
 
 from luma.core.interface.serial import noop, spi
 from luma.core.render import canvas
