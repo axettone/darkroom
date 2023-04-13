@@ -59,6 +59,12 @@ you press + the timer will be adjusted to 20 seconds, the second time to 40 seco
 If STOP_INCREMENTS is 6, the increments will be 11.2, 12.6, 14.1 and so on.
 If the timer is set to 14.1 and STOP_INCREMENTS is 6, you'll go in reverse: 12.6, 11.2, 10 and so on.
 
+### FOOTSWITCH
+If you buy a HID USB footswitch, you can set the FOOTSWITCH_KEY to use
+it as an alias of Enter button. E.g. my footswitch works as "b" key out
+of the box, so I can set FOOTSWITCH_KEY=b and when I press the footswitch
+the timer starts.
+
 ## Configuration
 
 It is possible to customize a few things with environment variables
@@ -71,6 +77,7 @@ It is possible to customize a few things with environment variables
 * FONT_FILE = (default "darkroom/fonts/scoreboard.ttf")
 * ACTIVE_MODE_HIGH = (default True)
 * STOP_INCREMENTS = (default False)
+* FOOTSWITCH_KEY = (default 'b')
 
 
 ## License

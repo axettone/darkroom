@@ -22,6 +22,7 @@ STARTUP_MESSAGE = os.getenv('STARTUP_MESSAGE', 'LOVE U')
 FONT_FILE = os.getenv('FONT_FILE', os.path.join(os.path.dirname(__file__), "fonts", "scoreboard.ttf"))
 ACTIVE_MODE_HIGH = os.getenv('ACTIVE_MODE_HIGH', True)
 STOP_INCREMENTS = os.getenv('STOP_INCREMENTS', False)
+FOOTSWITCH_KEY = os.getenv('FOOTSWITCH_KEY', "b")
 
 if STOP_INCREMENTS.isdigit():
     STOP_INCREMENTS = int(STOP_INCREMENTS)
@@ -123,9 +124,10 @@ def get_char():
 
 
 def on_release(key):
-    global set_timer_capture
+    global set_timer_capture, FOOTSWITCH_KEY
     actions = {
         "enter": print_light,
+        FOOTSWITCH_KEY: print_light,
         "/": enlarger.toggle,
         "backspace": cancel,
         "*": set_timer_mode_toggle,
