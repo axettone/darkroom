@@ -196,6 +196,8 @@ def main():
                 char = "enter"
             elif ascii_char == 127:
                 char = "backspace"
+            elif char.lower() == FOOTSWITCH_KEY:
+                char = FOOTSWITCH_KEY
             elif char not in "0123456789.*/-+":
                 continue
 
